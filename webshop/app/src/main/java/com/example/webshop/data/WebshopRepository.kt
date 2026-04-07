@@ -22,10 +22,6 @@ class WebshopRepository(
     val orders: Flow<List<OrderEntity>> = orderDao.getAllOrders()
 
     suspend fun seedProductsIfNeeded() {
-
-        productDao.deleteAllProducts()
-
-
         if (productDao.countProducts() == 0) {
             productDao.insertAll(
                 listOf(
@@ -38,6 +34,50 @@ class WebshopRepository(
                     ProductEntity(name = "Hátizsák", description = "Mindennapi használatra", price = 10990.0, imageResName = "backpack"),
                 )
             )
+        }
+    }
+
+    suspend fun createProduct(
+        name: String,
+        description: String,
+        price: Double,
+        imageSource: String
+    ) {
+        productDao.insert(
+            ProductEntity(
+                name = name,
+                description = description,
+                price = price,
+                imageResName = imageSource
+            )
+        )
+    }
+
+    suspend fun updateProduct(
+        id: Int,
+        name: String,
+        description: String,
+        price: Double,
+        imageSource: String
+    ) {
+        db.withTransaction {
+            productDao.update(
+                ProductEntity(
+                    id = id,
+                    name = name,
+                    description = description,
+                    price = price,
+                    imageResName = imageSource
+                )
+            )
+            cartDao.updateProductSnapshot(id, name, price)
+        }
+    }
+
+    suspend fun deleteProduct(product: ProductEntity) {
+        db.withTransaction {
+            cartDao.deleteByProductId(product.id)
+            productDao.deleteById(product.id)
         }
     }
 

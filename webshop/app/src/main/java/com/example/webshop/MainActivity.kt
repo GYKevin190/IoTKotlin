@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.webshop.data.AppDatabase
 import com.example.webshop.data.WebshopRepository
-import com.example.webshop.ui.WebshopApp
+import com.example.webshop.ui.AdminWebshopApp
 import com.example.webshop.ui.theme.WebshopTheme
 import com.example.webshop.viewmodel.MainViewModel
 import com.example.webshop.viewmodel.MainViewModelFactory
@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                 val viewModel: MainViewModel = viewModel(
                     factory = MainViewModelFactory(repository)
                 )
-                WebshopApp(viewModel)
+                AdminWebshopApp(viewModel)
             }
         }
     }

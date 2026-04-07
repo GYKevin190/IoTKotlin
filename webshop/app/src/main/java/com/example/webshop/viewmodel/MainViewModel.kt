@@ -7,7 +7,6 @@ import com.example.webshop.data.WebshopRepository
 import com.example.webshop.data.entity.CartItemEntity
 import com.example.webshop.data.entity.ProductEntity
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -42,6 +41,35 @@ class MainViewModel(
     fun addToCart(product: ProductEntity) {
         viewModelScope.launch {
             repository.addToCart(product)
+        }
+    }
+
+    fun createProduct(
+        name: String,
+        description: String,
+        price: Double,
+        imageSource: String
+    ) {
+        viewModelScope.launch {
+            repository.createProduct(name, description, price, imageSource)
+        }
+    }
+
+    fun updateProduct(
+        id: Int,
+        name: String,
+        description: String,
+        price: Double,
+        imageSource: String
+    ) {
+        viewModelScope.launch {
+            repository.updateProduct(id, name, description, price, imageSource)
+        }
+    }
+
+    fun deleteProduct(product: ProductEntity) {
+        viewModelScope.launch {
+            repository.deleteProduct(product)
         }
     }
 
